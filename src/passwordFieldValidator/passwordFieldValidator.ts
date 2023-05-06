@@ -5,15 +5,13 @@ const MINIMUM_LENGTH = 8;
 const MINIMUM_CAPITALS = 1;
 const MINIMUM_SPECIAL_CHARACTERS = 1;
 
-/* eslint-disable no-unused-vars */
-export enum PasswordErrorMessages {
-  MISSING_PASSWORD = 'Must provide a password',
-  TOO_SHORT = `Password must be at least ${MINIMUM_LENGTH} characters`,
-  TOO_FEW_NUMBERS = `The password must contain at least ${MINIMUM_NUMBERS} numbers`,
-  TOO_FEW_CAPITALS = `The password must contain at least ${MINIMUM_CAPITALS} capital letter`,
-  TOO_FEW_SPECIAL_CHARACTERS = `The password must contain at least ${MINIMUM_SPECIAL_CHARACTERS} special character`,
-}
-/* eslint-enable no-unused-vars */
+export const PASSWORD_ERROR_MESSAGES = {
+  MISSING_PASSWORD: 'Must provide a password',
+  TOO_SHORT: `Password must be at least ${MINIMUM_LENGTH} characters`,
+  TOO_FEW_NUMBERS: `The password must contain at least ${MINIMUM_NUMBERS} numbers`,
+  TOO_FEW_CAPITALS: `The password must contain at least ${MINIMUM_CAPITALS} capital letter`,
+  TOO_FEW_SPECIAL_CHARACTERS: `The password must contain at least ${MINIMUM_SPECIAL_CHARACTERS} special character`,
+};
 
 const passwordPatterns = {
   minimumNumbers: new RegExp(`(\\D*\\d){${MINIMUM_NUMBERS},}`),
@@ -28,7 +26,7 @@ const validatePasswordGiven = (
   validationResult: ValidationResult,
 ) => {
   if (!password) {
-    validationResult.addMessage(PasswordErrorMessages.MISSING_PASSWORD);
+    validationResult.addMessage(PASSWORD_ERROR_MESSAGES.MISSING_PASSWORD);
   }
 };
 
@@ -37,7 +35,7 @@ const validatePasswordLength = (
   validationResult: ValidationResult,
 ) => {
   if (password.length < MINIMUM_LENGTH) {
-    validationResult.addMessage(PasswordErrorMessages.TOO_SHORT);
+    validationResult.addMessage(PASSWORD_ERROR_MESSAGES.TOO_SHORT);
   }
 };
 
@@ -48,7 +46,7 @@ const validateMinimumNumbers = (
   const hasEnoughNumbers = passwordPatterns.minimumNumbers.test(password);
 
   if (!hasEnoughNumbers) {
-    validationResult.addMessage(PasswordErrorMessages.TOO_FEW_NUMBERS);
+    validationResult.addMessage(PASSWORD_ERROR_MESSAGES.TOO_FEW_NUMBERS);
   }
 };
 
@@ -59,7 +57,7 @@ const validateMinimumCapitals = (
   const hasEnoughCapitals = passwordPatterns.minimumCapitals.test(password);
 
   if (!hasEnoughCapitals) {
-    validationResult.addMessage(PasswordErrorMessages.TOO_FEW_CAPITALS);
+    validationResult.addMessage(PASSWORD_ERROR_MESSAGES.TOO_FEW_CAPITALS);
   }
 };
 
@@ -72,7 +70,7 @@ const validateMinimumSpecialCharacters = (
 
   if (!hasEnoughSpecialCharacters) {
     validationResult.addMessage(
-      PasswordErrorMessages.TOO_FEW_SPECIAL_CHARACTERS,
+      PASSWORD_ERROR_MESSAGES.TOO_FEW_SPECIAL_CHARACTERS,
     );
   }
 };
