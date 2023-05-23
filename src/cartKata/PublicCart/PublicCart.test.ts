@@ -1,20 +1,7 @@
-import { Cart } from '../Cart/Cart';
+import { Currency } from '../Currency/Currency';
 import { ProductCollection } from '../ProductCollection/ProductCollection';
 import { TaxableProduct } from '../TaxableProduct/TaxableProduct';
-
-export class PublicCart extends Cart {
-  calculateTotalBase(): number {
-    return this.products
-      .getList()
-      .reduce((total, product) => total + product.getBasePrice(), 0);
-  }
-
-  calculateTotalTax(): number {
-    return this.products
-      .getList()
-      .reduce((total, product) => total + product.getTax(), 0);
-  }
-}
+import { PublicCart } from './PublicCart';
 
 describe('Given a PublicCart', () => {
   test('When it is defined, then it should be a function', () => {
@@ -29,39 +16,40 @@ describe('Given a PublicCart', () => {
     });
   });
 
-  describe('And it has one product with a base price of 9 and tax 10', () => {
+  describe('And it has one product with a base price of 900 and tax 10', () => {
     const name = 'name';
-    const basePrice = 9;
+    const description = 'description';
+    const basePrice = new Currency(900);
     const tax = 10;
 
-    test('Then its total base price should be 9', () => {
+    test('Then its total base price should be 900', () => {
       const productCollection = new ProductCollection();
-      const product = new TaxableProduct(name, basePrice, tax);
+      const product = new TaxableProduct(name, description, basePrice, tax);
       productCollection.add(product);
 
       const publicCart = new PublicCart(productCollection);
 
-      expect(publicCart.calculateTotalBase()).toBe(9);
+      expect(publicCart.calculateTotalBase().getValue()).toBe(900);
     });
 
-    test('Then its total tax should be 0.9', () => {
+    test('Then its total tax should be 90', () => {
       const productCollection = new ProductCollection();
-      const product = new TaxableProduct(name, basePrice, tax);
+      const product = new TaxableProduct(name, description, basePrice, tax);
       productCollection.add(product);
 
       const publicCart = new PublicCart(productCollection);
 
-      expect(publicCart.calculateTotalTax()).toBe(0.9);
+      expect(publicCart.calculateTotalTax().getValue()).toBe(90);
     });
 
-    test('Then its total price should be 9.9', () => {
+    test('Then its total price should be 990', () => {
       const productCollection = new ProductCollection();
-      const product = new TaxableProduct(name, basePrice, tax);
+      const product = new TaxableProduct(name, description, basePrice, tax);
       productCollection.add(product);
 
       const publicCart = new PublicCart(productCollection);
 
-      expect(publicCart.calculateTotal()).toBe(9.9);
+      expect(publicCart.calculateTotal()).toBe(990);
     });
   });
 });

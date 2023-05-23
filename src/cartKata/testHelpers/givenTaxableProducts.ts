@@ -1,3 +1,4 @@
+import { Currency } from '../Currency/Currency';
 import { TaxableProduct } from '../TaxableProduct/TaxableProduct';
 import { Product } from '../types';
 
@@ -8,7 +9,8 @@ export const givenTaxableProducts = (numberOfProducts: number): Product[] => {
     products.push(
       new TaxableProduct(
         `Product ${i}`,
-        Math.floor(Math.random() * 100),
+        `Product ${i} description`,
+        new Currency(Math.floor(Math.random() * 100 * 100)),
         Math.floor(Math.random() * 100),
       ),
     );

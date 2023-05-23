@@ -1,29 +1,37 @@
 import { randomUUID } from 'crypto';
+import { Currency } from '../Currency/Currency';
 import { Product } from '../types';
 
 export class TaxableProduct implements Product {
   #name: string;
-  #basePrice: number;
-  #tax: number;
+  #description: string;
+  #basePrice: Currency;
+  #taxes: number;
   #id: string;
 
-  constructor(name: string, basePrice: number, tax: number) {
+  constructor(
+    name: string,
+    description: string,
+    basePrice: Currency,
+    taxes: number,
+  ) {
     this.#name = name;
     this.#basePrice = basePrice;
-    this.#tax = tax;
+    this.#taxes = taxes;
+    this.#description = description;
     this.#id = randomUUID();
   }
 
-  getBasePrice(): number {
+  getBasePrice(): Currency {
     return this.#basePrice;
   }
 
-  getTotalPrice(): number {
-    return this.#basePrice + this.getTax();
+  getTotalPrice(): Currency {
+    return this.#basePrice.add(this.getTax());
   }
 
-  getTax(): number {
-    return (this.#basePrice / 100) * this.#tax;
+  getTax(): Currency {
+    return this.#basePrice.multiplyBy(this.#taxes / 100);
   }
 
   getName(): string {
@@ -32,5 +40,9 @@ export class TaxableProduct implements Product {
 
   getId(): string {
     return this.#id;
+  }
+
+  getTaxRate(): number {
+    return this.#taxes;
   }
 }

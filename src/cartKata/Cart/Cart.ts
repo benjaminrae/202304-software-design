@@ -1,3 +1,4 @@
+import { Currency } from '../Currency/Currency';
 import { Collection, Product } from '../types';
 
 export abstract class Cart {
@@ -7,12 +8,12 @@ export abstract class Cart {
     this.products = products;
   }
 
-  abstract calculateTotalBase(): number;
+  abstract calculateTotalBase(): Currency;
 
-  abstract calculateTotalTax(): number;
+  abstract calculateTotalTax(): Currency;
 
   calculateTotal(): number {
-    return this.calculateTotalBase() + this.calculateTotalTax();
+    return this.calculateTotalBase().add(this.calculateTotalTax()).getValue();
   }
 
   addToCart(item: Product) {
